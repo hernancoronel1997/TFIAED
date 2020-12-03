@@ -407,7 +407,8 @@ void loginUsuario()
 void menuPrinciapl()
 {
 	int opcion;
-
+	bool banderobich=false;
+	bool banderobich1=false;;
 	
 	do
 	{
@@ -426,7 +427,7 @@ void menuPrinciapl()
 		
 		case 1:
 				int opcion1;
-
+			
 			do
 			{
 				system("cls"); //CLS significa clear screan(limpiar pantalla)
@@ -443,20 +444,43 @@ void menuPrinciapl()
 				{
 				
 				case 1:
-						void loginUsuario();
-				
-				
+						loginUsuario();
+						banderobich=true;
+						break;
+						
 				break;
 				
 				case 2:
 				
+					if (banderobich)
+					{
+						
+					}
 				
+					else
+					{
+					printf("\nNo realizo el INICIO DE SESION");
+					printf("\n");
+					system("pause");
+					}
 					break;
 					
 				case 3:
-					
+						if (banderobich)
+					{
+						
+					}
+				
+					else
+					{
+					printf("\nNo realizo el INICIO DE SESION");
+					printf("\n");
+					system("pause");
+					}
+					break;
 					
 				case 4:
+					banderobich=false;
 					printf("\n Ud Salio del sistema...");
 					break;
 				default:
@@ -474,9 +498,10 @@ void menuPrinciapl()
 		break;
 		
 		case 2:	
+		
 				int opcion2;
 
-	
+			
 			do
 			{
 				system("cls"); //CLS significa clear screan(limpiar pantalla)
@@ -494,25 +519,60 @@ void menuPrinciapl()
 				{
 				
 				case 1:	
-						loginUsuario();
-			
-				break;
+					banderobich1=true;
+					loginUsuario();
+					break;
 				
 				case 2:
+					
+					if (banderobich1)
+					{
 						registrarmascota();
+					}
+				
+					else
+					{
+					printf("\nNo realizo el INICIO DE SESION");
+					printf("\n");
+					system("pause");
+					}
+						
 				
 					break;
 					
 				case 3:
+					if (banderobich1)
+					{
 					registrarTurno();
+					}
+					else
+					{
+					printf("\nNo realizo el INICIO DE SESION");
+					printf("\n");
+					system("pause");
+					}
+					
 					
 					break;
 					
 				case 4:
 					
+					if (banderobich1)
+					{
+						
+					}
+				
+					else
+					{
+					printf("\nNo realizo el INICIO DE SESION");
+					printf("\n");
+					system("pause");
+					}
+					
 					break;
 					
 				case 5:
+					banderobich1=false;
 					printf("\n Ud Salio del sistema...");
 					break;
 				default:
@@ -564,6 +624,7 @@ void menuPrinciapl()
 				break;
 				
 				case 4:
+				
 				
 				break;
 				
