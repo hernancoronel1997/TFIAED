@@ -3,10 +3,17 @@
 #include <string.h>
 #include <ctype.h>
 
+
+	FILE *fp;
+	FILE *fm;
+	FILE *ft;
+
 void crearUsuario();
 void loginUsuario();
 void menuPrinciapl();
 void registrarveterinario();
+void registrarmascota();
+void registrarTurno();
 
 typedef char cadena[50];
 
@@ -38,16 +45,17 @@ struct Veterinario
 };
 
 struct Mascota{
+	
 	char ApellidoyNombre[60];
 	char Domiciolio[60];
 	int DNIdueneo;
 	char Localidad[60];
 	FechadeNacimiento Fecha;
 	float Peso;
-	char Telefono[25];
+	int Telefono;
 };
 
-struct Trunos{
+struct Turnos{
 	int MatriculadeVeterinario;
 	Fecha fecha;
 	int DNIdueneo;
@@ -88,11 +96,20 @@ main()
 void crearUsuario()
 {
 	FILE *arch;
+	
 	Usuarios nuevo;
 	Usuarios nuevoArch;
 	cadena contra;
 	int cantmayusculas, cantminusculas, cantdigitos,comprobante, longitud=0;
 	arch = fopen("Usuarios.dat","a+b");
+
+	while(true)
+	{
+			_flushall();
+			printf("\nIngrese apellido y Nombre del Usuario: ");
+			gets(nuevo.ApellidoyNombre);			
+			break;
+	}
 	
 	regreso:
 	
@@ -369,7 +386,7 @@ void loginUsuario()
             system("pause");
             menuPrinciapl();
             //AQUI IRIA EL MENU PARA LOS MODULOS
-            fseek(puntero, (-1)*sizeof(Usuarios),SEEK_CUR);
+            //fseek(puntero, (-1)*sizeof(Usuarios),SEEK_CUR);
 		    fwrite(&nuevoArch,sizeof(Usuarios),1,puntero);
 		    
 		    system("pause");
@@ -426,6 +443,7 @@ void menuPrinciapl()
 				{
 				
 				case 1:
+						void loginUsuario();
 				
 				
 				break;
@@ -475,17 +493,18 @@ void menuPrinciapl()
 				switch(opcion2)
 				{
 				
-				case 1:
-				
+				case 1:	
+						loginUsuario();
 			
 				break;
 				
 				case 2:
-				
+						registrarmascota();
 				
 					break;
 					
 				case 3:
+					registrarTurno();
 					
 					break;
 					
@@ -536,6 +555,8 @@ void menuPrinciapl()
 				
 								
 				case 2:
+					
+						crearUsuario();
 				
 				break;
 				case 3:
@@ -585,7 +606,7 @@ void registrarveterinario()
 	int b = 0;
 	Veterinario vet;
 	int i;
-	FILE *fp;
+
 	fp = fopen("Veterinarios.dat", "a+b");
 
 	printf("Registro de Veterinario Nº%d", i+1);
@@ -612,18 +633,137 @@ void registrarveterinario()
 	} while (vet.Dni <= 10000000 && vet.Dni >= 99999999);
 
 	_flushall();
-
+	do{
+	
 		printf("Télefono: ");
 		scanf("%10d", &vet.Telefono);
+	}while(vet.Telefono>= 1000000000 && vet.Telefono<= 9999999999);
 	
 	_flushall();
-//	fwrite()
-	//fprintf(fp, "%s;%06d;%08d;%s;\n",vet.ApellidoyNombre,vet.Matricula,vet.Dni,vet.Telefono);
-	//printf("\nCREACION DE USUARIO PARA EL VETERINARIO");
+	 fwrite(&vet,sizeof(Veterinario),1,fp);
 	
-	//stdcpy(vet.ApellidoyNombre,
-	//crearUsuario()
+	printf("\nCREACION DE USUARIO PARA EL VETERINARIO\n");
+	
+	crearUsuario();
 	
 	fclose(fp);
 	//system("CLS");
+}
+
+
+void registrarmascota()
+{
+	Mascota masc;
+
+	fm= fopen("Mascota.dat", "a+b");
+
+//	printf("Registro de Mascota Nº%d", i+1);
+	printf("\n------------------------------\n");
+
+	_flushall();
+	do
+	{
+		printf("Apellido y Nombre de la Mascota: ");
+		gets(masc.ApellidoyNombre);
+	} while (strlen(masc.ApellidoyNombre) == 0);
+	_flushall();
+
+	do
+	{
+		printf("Domicilio: ");
+		gets(masc.Domiciolio);
+	} while (strlen(masc.Domiciolio) == 0);
+
+	do
+	{
+		printf("DNI del dueño: ");
+		scanf("%08d", &masc.DNIdueneo);
+	}while (masc.DNIdueneo <= 10000000 && masc.DNIdueneo >= 99999999);
+	//(masc.DNIdueneo >= 10000000 && masc.DNIdueneo<= 99999999);
+
+	do
+	{
+		_flushall();
+		printf("Localidad: ");
+		gets(masc.Localidad);
+	} while (strlen(masc.Localidad) == 0);
+	
+		printf("\nFecha de Nacimiento de la Mascota: ");
+		printf("\nDia: ");
+		scanf("%d",&masc.Fecha.dia);
+		printf("Mes: ");
+		scanf("%d",&masc.Fecha.mes);
+		printf("Año: ");
+		scanf("%d",&masc.Fecha.anio);
+		
+			_flushall();
+			
+	printf("\nPeso de la Mascota: ");
+	scanf("%f",&masc.Peso);
+	
+	do{
+	
+		printf("Télefono del Dueño: ");
+		scanf("%10d", &masc.Telefono);
+	}while(masc.Telefono <=1000000000 && masc.Telefono>= 9999999999);
+	
+	_flushall();
+
+	fwrite(&masc,sizeof(Mascota),1,fm);
+	
+	fclose(fm);
+}
+
+void registrarTurno()
+{
+	int a,b;
+	Turnos turn;
+	Veterinario vet;
+	Mascota masc;
+	bool bandera=false;
+	
+	printf("\nIngrese la matricula del Veterinario: ");
+	scanf("%d",&a);
+	
+	ft=fopen("Turnos.dat","a+b");
+	
+	fp=fopen("Veterinarios.dat","rb");
+	fread(&vet, sizeof(Veterinario), 1,fp);
+		while(!feof(fp))
+		{
+			if(a==vet.Matricula)
+			{
+				
+				turn.MatriculadeVeterinario=vet.Matricula;
+				
+				printf("DNI Dueño");
+				scanf("%d",&turn.DNIdueneo);
+				
+				printf("\nFecha del Turno: ");
+				
+				printf("\nDia: ");
+				scanf("%d",&turn.fecha.dia);
+				printf("Mes: ");
+				scanf("%d",&turn.fecha.mes);
+				printf("Año: ");
+				scanf("%d",&turn.fecha.anio);
+				
+				_flushall();
+				printf("\nDetalle de atencion: ");
+				gets(turn.DetalledeAtencion);
+				
+				 fwrite(&turn,sizeof(Turnos),1,ft);
+				 
+				 bandera=true;
+			}	
+			fread(&vet, sizeof(Veterinario), 1,fp);
+		}
+	
+	if(bandera==false)
+	{
+		printf("\nLa matricula ingresada para solicitar el turno NO pertence a ningun Veterinario!!!");
+	}
+	
+	fclose(fp);
+	fclose(ft);
 }
