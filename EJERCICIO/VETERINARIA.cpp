@@ -14,6 +14,9 @@ void menuPrinciapl();
 void registrarveterinario();
 void registrarmascota();
 void registrarTurno();
+void listadoVetPorFecha();
+void listaTurno();
+void llamarmascota();
 
 typedef char cadena[50];
 
@@ -60,6 +63,7 @@ struct Turnos{
 	Fecha fecha;
 	int DNIdueneo;
 	char DetalledeAtencion[380];
+	char DetalledeEvolucion[380];
 };
 
 main()
@@ -452,37 +456,39 @@ void menuPrinciapl()
 				
 				case 2:
 				
-					if (banderobich)
-					{
-						
-					}
+				//	if (banderobich)
+				//	{
+						 listaTurno();
+				/*	}
 				
 					else
 					{
 					printf("\nNo realizo el INICIO DE SESION");
 					printf("\n");
 					system("pause");
-					}
+					}*/
 					break;
 					
 				case 3:
-						if (banderobich)
-					{
-						
-					}
+					//	if (banderobich)
+					//{
+						llamarmascota();
+					//}
 				
-					else
+					/*else
 					{
 					printf("\nNo realizo el INICIO DE SESION");
 					printf("\n");
 					system("pause");
-					}
+					}*/
 					break;
 					
 				case 4:
+					
 					banderobich=false;
 					printf("\n Ud Salio del sistema...");
 					break;
+					
 				default:
 				
 					printf("\nSE EQUIVOCO DE OPCION DEL MENU!!!");	
@@ -519,60 +525,60 @@ void menuPrinciapl()
 				{
 				
 				case 1:	
-					banderobich1=true;
+				//	banderobich1=true;
 					loginUsuario();
 					break;
 				
 				case 2:
 					
-					if (banderobich1)
-					{
+				//	if (banderobich1)
+				//	{
 						registrarmascota();
-					}
+				/*	}
 				
 					else
 					{
 					printf("\nNo realizo el INICIO DE SESION");
 					printf("\n");
 					system("pause");
-					}
+					}*/
 						
 				
 					break;
 					
 				case 3:
-					if (banderobich1)
-					{
+				//	if (banderobich1)
+				//	{
 					registrarTurno();
-					}
+				/*	}
 					else
 					{
 					printf("\nNo realizo el INICIO DE SESION");
 					printf("\n");
 					system("pause");
-					}
+					}*/
 					
 					
 					break;
 					
 				case 4:
 					
-					if (banderobich1)
-					{
-						
-					}
+				//	if (banderobich1)
+				//	{
+						listadoVetPorFecha();
+				/*	}
 				
 					else
 					{
 					printf("\nNo realizo el INICIO DE SESION");
 					printf("\n");
 					system("pause");
-					}
+					}*/
 					
 					break;
 					
 				case 5:
-					banderobich1=false;
+				//	banderobich1=false;
 					printf("\n Ud Salio del sistema...");
 					break;
 				default:
@@ -828,3 +834,200 @@ void registrarTurno()
 	fclose(fp);
 	fclose(ft);
 }
+
+void listadoVetPorFecha()
+{
+	Turnos turno;
+	Veterinario vet;
+	Mascota masc;
+	int a,b,c,e;
+	cadena d;
+	
+	printf("\nIngrese el día de atencion que desea buscar: ");
+	scanf("%d",&a);
+	printf("\nIngrese el mes de atencion que desea buscar: ");
+	scanf("%d",&b);
+	printf("\nIngrese el año de atencion que desea buscar: ");
+	scanf("%d",&c);
+	_flushall();
+	printf("\nIngrese el Apellido y Nombre del Vet. que desea buscar: ");
+	gets(d);
+//	printf("\nIngrese la matricula del veterinario: ");
+//	scanf("%d",&e);
+	
+	ft=fopen("Turnos.dat","r+b");
+	fp=fopen("Veterinarios.dat","r+b");
+	fm=fopen("Mascotas.dat","r+b");
+	
+    fread(&vet,sizeof(Veterinario),1,fp);
+    fread(&turno,sizeof(Turnos),1,ft);
+    fread(&masc,sizeof(Mascota),1,fm);
+    
+    while(!feof(fp))
+    {
+    	
+    	if(strcmp(d,vet.ApellidoyNombre)==0);
+    	//if(e==vet.Matricula)
+    	{
+    		while(!feof(ft))
+    		{
+    			if(a==turno.fecha.dia)
+    			{
+    					while(!feof(ft))
+    					{
+    						if(b==turno.fecha.mes)
+    						{
+	    						
+	    						while(!feof(ft))
+	    						{
+	    							if(c==turno.fecha.anio)
+	    							{	
+	    								
+										printf("\nVeterinario a cargo: ");
+										puts(vet.ApellidoyNombre);
+									 	printf("Fecha de la consulta: ");
+									 	printf("\nDIA: %d",turno.fecha.dia);
+										printf("\nMES: %d",turno.fecha.mes);
+										printf("\nANIO: %d",turno.fecha.anio);
+									   
+									}
+									    	
+	    							fread(&turno,sizeof(Turnos),1,ft);
+	    						}
+	    							
+	    					}
+	    					fread(&turno,sizeof(Turnos),1,ft);
+	    				}
+	    					
+    			}
+    			fread(&turno,sizeof(Turnos),1,ft);
+    		}
+    		
+    	}
+    	fread(&vet,sizeof(Veterinario),1,fp);
+    }
+    
+	
+    /*	printf("\nVeterinario a cargo: ");
+    	puts(vet.ApellidoyNombre);
+    	printf("Fecha de la consulta: ");
+    	printf("\nDIA: %d",turno.fecha.dia);
+    	printf("\nMES: %d",turno.fecha.mes);
+    	printf("\nANIO: %d",turno.fecha.anio);
+    	
+    	fread(&vet,sizeof(Veterinario),1,fp);
+    	fread(&turno,sizeof(Turnos),1,ft);*/
+    	fclose(fp);
+   	 	fclose(ft);
+
+}
+    
+
+void listaTurno()
+{
+	
+	
+	Turnos turno;
+	Veterinario vet;
+	Mascota masc;
+	int a,b,c,e;
+	cadena d;
+	
+	printf("\nIngrese el día de hoy: ");
+	scanf("%d",&a);
+	printf("Ingrese el mes: ");
+	scanf("%d",&b);
+	printf("Ingrese el año: ");
+	scanf("%d",&c);
+
+	ft=fopen("Turnos.dat","r+b");
+	//fp=fopen("Veterinarios.dat","r+b");
+	//fm=fopen("Mascotas.dat","r+b");
+	
+    //fread(&vet,sizeof(Veterinario),1,fp);
+    fread(&turno,sizeof(Turnos),1,ft);
+    //fread(&masc,sizeof(Mascota),1,fm);
+    
+  
+    	while(!feof(ft))
+    	{
+    		if(a==turno.fecha.dia)   
+			{
+   				while(!feof(ft))
+   				{
+   					if(b==turno.fecha.mes)
+   					{		
+	   					while(!feof(ft))
+	   					{
+	   						if(c==turno.fecha.anio)
+	    					{	
+	    						while(!feof(ft))
+	    						{
+									printf("\nInforme de la lista de espera de turnos: ");
+									puts(turno.DetalledeAtencion);
+									fread(&turno,sizeof(turno),1,ft);
+								}	
+							}
+								    	
+	   							fread(&turno,sizeof(Turnos),1,ft);
+	    				}
+	    						
+	    			}
+	    				fread(&turno,sizeof(Turnos),1,ft);
+	    		}	    					
+   			}
+   			fread(&turno,sizeof(Turnos),1,ft);
+    	}
+    
+    
+/*	Turnos turno;
+	ft=fopen("Turnos.dat","r+b");
+	
+	fread(&turno,sizeof(turno),1,ft);
+	while(!feof(ft))
+	{
+		printf("\nInforme de la lista de espera de turnos: ");
+		puts(turno.DetalledeAtencion);
+		fread(&turno,sizeof(turno),1,ft);
+	}*/
+	fclose(ft);
+}
+
+
+void llamarmascota()
+{
+	Mascota masc;
+	Turnos turno;
+	//Veterinarios vet;
+	cadena a;
+	
+	printf("\nIngrese el Apellido y Nombre de la mascota que desea llamar para atender: ");
+	gets(a);
+	
+	fm=fopen("Mascotas.dat","r+b");
+	ft=fopen("Turnos.dat","r+b");
+	//fread(&vet,sizeof(Veterinario),1,fp);
+    fread(&turno,sizeof(Turnos),1,ft);
+    fread(&masc,sizeof(Mascota),1,fm);
+	while(!feof(fm))
+	{
+		if(strcmp(a,masc.ApellidoyNombre)==0);
+		{
+			while (!feof(ft))
+			{
+				if(masc.DNIdueneo==turno.DNIdueneo)
+				{
+					rewind(fm);
+					printf("\nDetalle de Evolución: ");
+					gets(turno.DetalledeEvolucion);
+					
+				}
+				fread(&turno,sizeof(Turnos),1,ft);
+			}
+			
+		}
+		fread(&masc,sizeof(Mascota),1,fm);
+	}
+	
+}
+
