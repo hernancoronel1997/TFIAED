@@ -1,0 +1,12 @@
+MEDICOS:
+coronel hernan
+USER: hERnan
+Contra: aLOha1
+
+ASISTENTES:
+
+coronel nicolas
+USER: niCO13
+Contra: aLOha2
+
+
