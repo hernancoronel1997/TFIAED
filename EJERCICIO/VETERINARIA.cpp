@@ -64,6 +64,7 @@ struct Turnos{
 	int DNIdueneo;
 	char DetalledeAtencion[380];
 	char DetalledeEvolucion[380];
+	bool borrado=false;
 };
 
 main()
@@ -449,7 +450,7 @@ void menuPrinciapl()
 				
 				case 1:
 						loginUsuario();
-						banderobich=true;
+					//	banderobich=true;
 						break;
 						
 				break;
@@ -485,7 +486,7 @@ void menuPrinciapl()
 					
 				case 4:
 					
-					banderobich=false;
+				//	banderobich=false;
 					printf("\n Ud Salio del sistema...");
 					break;
 					
@@ -852,8 +853,6 @@ void listadoVetPorFecha()
 	_flushall();
 	printf("\nIngrese el Apellido y Nombre del Vet. que desea buscar: ");
 	gets(d);
-//	printf("\nIngrese la matricula del veterinario: ");
-//	scanf("%d",&e);
 	
 	ft=fopen("Turnos.dat","r+b");
 	fp=fopen("Veterinarios.dat","r+b");
@@ -866,8 +865,7 @@ void listadoVetPorFecha()
     while(!feof(fp))
     {
     	
-    	if(strcmp(d,vet.ApellidoyNombre)==0);
-    	//if(e==vet.Matricula)
+    	if(strcmp(d,vet.ApellidoyNombre)==0);	//if(e==vet.Matricula)
     	{
     		while(!feof(ft))
     		{
@@ -907,16 +905,7 @@ void listadoVetPorFecha()
     	fread(&vet,sizeof(Veterinario),1,fp);
     }
     
-	
-    /*	printf("\nVeterinario a cargo: ");
-    	puts(vet.ApellidoyNombre);
-    	printf("Fecha de la consulta: ");
-    	printf("\nDIA: %d",turno.fecha.dia);
-    	printf("\nMES: %d",turno.fecha.mes);
-    	printf("\nANIO: %d",turno.fecha.anio);
-    	
-    	fread(&vet,sizeof(Veterinario),1,fp);
-    	fread(&turno,sizeof(Turnos),1,ft);*/
+
     	fclose(fp);
    	 	fclose(ft);
 
@@ -1020,6 +1009,11 @@ void llamarmascota()
 					rewind(fm);
 					printf("\nDetalle de Evolución: ");
 					gets(turno.DetalledeEvolucion);
+					turno.borrado=true;
+					fseek(fm,-sizeof(Turnos),SEEK_CUR);
+ 					fwrite(&masc,sizeof(Mascota),1,fm);
+ 					printf("Registro dado de baja\n\n");
+				
 					
 				}
 				fread(&turno,sizeof(Turnos),1,ft);
